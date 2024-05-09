@@ -1,0 +1,23 @@
+package com.ilivanilton.infrastructure.configuration.usecases;
+
+import com.ilivanilton.application.task.create.CreateTaskUseCase;
+import com.ilivanilton.application.task.create.DefaultCreateTaskUseCase;
+import com.ilivanilton.domain.task.TaskGateway;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class TaskUseCaseConfig {
+
+    private final TaskGateway taskGateway;
+
+    public TaskUseCaseConfig(final TaskGateway taskGateway) {
+        this.taskGateway = taskGateway;
+    }
+
+    @Bean
+    public CreateTaskUseCase createTaskUseCase() {
+        return new DefaultCreateTaskUseCase(taskGateway);
+    }
+
+}
