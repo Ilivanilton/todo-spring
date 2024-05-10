@@ -64,9 +64,8 @@ public class TaskMySQLGateway implements TaskGateway {
         final var specifications = Optional.ofNullable(aQuery.terms())
                 .filter(str -> !str.isBlank())
                 .map(str -> {
-                    final Specification<TaskJpaEntity> nameLike = like("name", str);
                     final Specification<TaskJpaEntity> descriptionLike = like("description", str);
-                    return nameLike.or(descriptionLike);
+                    return descriptionLike;
                 })
                 .orElse(null);
 
