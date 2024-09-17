@@ -3,6 +3,7 @@ package com.ilivanilton.infrastructure.api.controllers;
 import com.ilivanilton.application.task.create.CreateTaskCommand;
 import com.ilivanilton.application.task.create.CreateTaskOutput;
 import com.ilivanilton.application.task.create.CreateTaskUseCase;
+import com.ilivanilton.application.task.retrieve.get.GetTaskByIdUseCase;
 import com.ilivanilton.application.task.retrieve.list.ListTaskUseCase;
 import com.ilivanilton.domain.pagination.Pagination;
 import com.ilivanilton.domain.task.TaskSearchQuery;
@@ -11,6 +12,7 @@ import com.ilivanilton.infrastructure.api.TaskAPI;
 import com.ilivanilton.infrastructure.task.models.CreateTaskRequest;
 import com.ilivanilton.infrastructure.task.models.CreateTaskResponse;
 import com.ilivanilton.infrastructure.task.models.TaskListResponse;
+import com.ilivanilton.infrastructure.task.models.TaskResponse;
 import com.ilivanilton.infrastructure.task.presenters.TaskApiPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +26,16 @@ public class TaskController implements TaskAPI {
 
     private final CreateTaskUseCase createTaskUseCase;
     private final ListTaskUseCase listTaskUseCase;
+    private final GetTaskByIdUseCase getTaskByIdUseCase;
 
     public TaskController(
             final CreateTaskUseCase createTaskUseCase,
-            final ListTaskUseCase listTaskUseCase
+            final ListTaskUseCase listTaskUseCase,
+            final GetTaskByIdUseCase getTaskByIdUseCase
     ) {
         this.createTaskUseCase = Objects.requireNonNull(createTaskUseCase);
         this.listTaskUseCase = Objects.requireNonNull(listTaskUseCase);
+        this.getTaskByIdUseCase = Objects.requireNonNull(getTaskByIdUseCase);
     }
 
     @Override
@@ -61,6 +66,11 @@ public class TaskController implements TaskAPI {
     ) {
         return listTaskUseCase.execute(new TaskSearchQuery(page, perPage, search, sort, direction))
                 .map(TaskApiPresenter::present);
+    }
+
+    @Override
+    public TaskResponse getById(final String id) {
+        return TaskApiPresenter.present(this.getTaskByIdUseCase.execute(id));
     }
 
 }

@@ -6,6 +6,7 @@ import com.ilivanilton.domain.validation.handler.Notification;
 import com.ilivanilton.infrastructure.task.models.CreateTaskRequest;
 import com.ilivanilton.infrastructure.task.models.CreateTaskResponse;
 import com.ilivanilton.infrastructure.task.models.TaskListResponse;
+import com.ilivanilton.infrastructure.task.models.TaskResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -54,5 +55,17 @@ public interface TaskAPI {
             @RequestParam(name = "sort", required = false, defaultValue = "description") final String sort,
             @RequestParam(name = "dir", required = false, defaultValue = "asc") final String direction
     );
+
+    @GetMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Get a task by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Task was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    TaskResponse getById(@PathVariable(name = "id") String id);
 
 }
