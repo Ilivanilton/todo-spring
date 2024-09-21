@@ -3,6 +3,7 @@ package com.ilivanilton.infrastructure.api.controllers;
 import com.ilivanilton.application.task.create.CreateTaskCommand;
 import com.ilivanilton.application.task.create.CreateTaskOutput;
 import com.ilivanilton.application.task.create.CreateTaskUseCase;
+import com.ilivanilton.application.task.delete.DeleteTaskUseCase;
 import com.ilivanilton.application.task.retrieve.get.GetTaskByIdUseCase;
 import com.ilivanilton.application.task.retrieve.list.ListTaskUseCase;
 import com.ilivanilton.domain.pagination.Pagination;
@@ -27,15 +28,18 @@ public class TaskController implements TaskAPI {
     private final CreateTaskUseCase createTaskUseCase;
     private final ListTaskUseCase listTaskUseCase;
     private final GetTaskByIdUseCase getTaskByIdUseCase;
+    private final DeleteTaskUseCase deleteTaskUseCase;
 
     public TaskController(
             final CreateTaskUseCase createTaskUseCase,
             final ListTaskUseCase listTaskUseCase,
-            final GetTaskByIdUseCase getTaskByIdUseCase
+            final GetTaskByIdUseCase getTaskByIdUseCase,
+            final DeleteTaskUseCase deleteTaskUseCase
     ) {
         this.createTaskUseCase = Objects.requireNonNull(createTaskUseCase);
         this.listTaskUseCase = Objects.requireNonNull(listTaskUseCase);
         this.getTaskByIdUseCase = Objects.requireNonNull(getTaskByIdUseCase);
+        this.deleteTaskUseCase = Objects.requireNonNull(deleteTaskUseCase);
     }
 
     @Override
@@ -73,4 +77,8 @@ public class TaskController implements TaskAPI {
         return TaskApiPresenter.present(this.getTaskByIdUseCase.execute(id));
     }
 
+    @Override
+    public void deleteById(final String anId) {
+        this.deleteTaskUseCase.execute(anId);
+    }
 }
