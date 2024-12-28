@@ -116,7 +116,7 @@ public class TaskTest {
     }
 
     @Test
-    public void givenAValidActiveTask_whenCallDeactivate_thenReturnTaskInactivated() {
+    public void givenAValidActiveTask_whenCallDeactivate_thenReturnTaskInactivated() throws InterruptedException {
         final var expectedDescription = "Task";
         final var expectedIsActive = false;
 
@@ -129,7 +129,7 @@ public class TaskTest {
 
         Assertions.assertTrue(aTask.isActive());
         Assertions.assertNull(aTask.getDeletedAt());
-
+        Thread.sleep(1);
         final var actualTask = aTask.deactivate();
 
         Assertions.assertDoesNotThrow(() -> actualTask.validate(new ThrowsValidationHandler()));
@@ -143,7 +143,7 @@ public class TaskTest {
     }
 
     @Test
-    public void givenAValidInactiveTask_whenCallActivate_thenReturnTaskActivated() {
+    public void givenAValidInactiveTask_whenCallActivate_thenReturnTaskActivated() throws InterruptedException {
         final var expectedDescription = "Task";
         final var expectedIsActive = true;
 
@@ -156,7 +156,7 @@ public class TaskTest {
 
         Assertions.assertFalse(aTask.isActive());
         Assertions.assertNotNull(aTask.getDeletedAt());
-
+        Thread.sleep(1);
         final var actualTask = aTask.activate();
 
         Assertions.assertDoesNotThrow(() -> actualTask.validate(new ThrowsValidationHandler()));

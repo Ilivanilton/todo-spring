@@ -1,6 +1,7 @@
 package com.ilivanilton.domain.task;
 
 import com.ilivanilton.domain.AggregateRoot;
+import com.ilivanilton.domain.utils.InstantUtils;
 import com.ilivanilton.domain.validation.ValidationHandler;
 
 import java.time.Instant;
@@ -33,7 +34,7 @@ public class Task extends AggregateRoot<TaskID> {
             final String aDesctiption,
             final boolean isActive
     ){
-        final Instant now = Instant.now();
+        final Instant now = InstantUtils.now();
         return new Task(
                 TaskID.unique(),
                 aDesctiption,
@@ -70,16 +71,16 @@ public class Task extends AggregateRoot<TaskID> {
 
     public Task activate(){
         this.deletedAt = null;
-        this.updatedAt =Instant.now();
+        this.updatedAt = InstantUtils.now();
         this.active = true;
         return this;
     }
 
     public Task deactivate(){
         if(getDeletedAt() == null)
-            this.deletedAt = Instant.now();
+            this.deletedAt = InstantUtils.now();
         this.active = false;
-        this.updatedAt = Instant.now();
+        this.updatedAt = InstantUtils.now();
         return this;
     }
 
