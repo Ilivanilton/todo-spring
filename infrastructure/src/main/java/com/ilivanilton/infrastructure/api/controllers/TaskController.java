@@ -6,14 +6,14 @@ import com.ilivanilton.application.task.create.CreateTaskUseCase;
 import com.ilivanilton.application.task.delete.DeleteTaskUseCase;
 import com.ilivanilton.application.task.retrieve.get.GetTaskByIdUseCase;
 import com.ilivanilton.application.task.retrieve.list.ListTaskUseCase;
+import com.ilivanilton.application.task.update.UpdateTaskCommand;
+import com.ilivanilton.application.task.update.UpdateTaskOutput;
+import com.ilivanilton.application.task.update.UpdateTaskUseCase;
 import com.ilivanilton.domain.pagination.Pagination;
 import com.ilivanilton.domain.task.TaskSearchQuery;
 import com.ilivanilton.domain.validation.handler.Notification;
 import com.ilivanilton.infrastructure.api.TaskAPI;
-import com.ilivanilton.infrastructure.task.models.CreateTaskRequest;
-import com.ilivanilton.infrastructure.task.models.CreateTaskResponse;
-import com.ilivanilton.infrastructure.task.models.TaskListResponse;
-import com.ilivanilton.infrastructure.task.models.TaskResponse;
+import com.ilivanilton.infrastructure.task.models.*;
 import com.ilivanilton.infrastructure.task.presenters.TaskApiPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,17 +29,20 @@ public class TaskController implements TaskAPI {
     private final ListTaskUseCase listTaskUseCase;
     private final GetTaskByIdUseCase getTaskByIdUseCase;
     private final DeleteTaskUseCase deleteTaskUseCase;
+    private final UpdateTaskUseCase updateTaskUseCase;
 
     public TaskController(
             final CreateTaskUseCase createTaskUseCase,
             final ListTaskUseCase listTaskUseCase,
             final GetTaskByIdUseCase getTaskByIdUseCase,
-            final DeleteTaskUseCase deleteTaskUseCase
+            final DeleteTaskUseCase deleteTaskUseCase,
+            final UpdateTaskUseCase updateTaskUseCase
     ) {
         this.createTaskUseCase = Objects.requireNonNull(createTaskUseCase);
         this.listTaskUseCase = Objects.requireNonNull(listTaskUseCase);
         this.getTaskByIdUseCase = Objects.requireNonNull(getTaskByIdUseCase);
         this.deleteTaskUseCase = Objects.requireNonNull(deleteTaskUseCase);
+        this.updateTaskUseCase = Objects.requireNonNull(updateTaskUseCase);
     }
 
     @Override
@@ -81,4 +84,23 @@ public class TaskController implements TaskAPI {
     public void deleteById(final String anId) {
         this.deleteTaskUseCase.execute(anId);
     }
+
+    @Override
+    public ResponseEntity<?> updateById(final String id, final UpdateTaskRequest input) {
+        final var aCommand = UpdateTaskCommand.with(
+                id,
+                input.description(),
+                input.active() != null ? input.active() : true
+        );
+
+        final Function<Notification, ResponseEntity<?>> onError = notification ->
+                ResponseEntity.unprocessableEntity().body(notification);
+
+        final Function<UpdateTaskOutput, ResponseEntity<?>> onSuccess =
+                ResponseEntity::ok;
+
+        return this.updateTaskUseCase.execute(aCommand)
+                .fold(onError, onSuccess);
+    }
+
 }

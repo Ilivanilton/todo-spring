@@ -8,6 +8,8 @@ import com.ilivanilton.application.task.retrieve.get.DefaultGetTaskByIdUseCase;
 import com.ilivanilton.application.task.retrieve.get.GetTaskByIdUseCase;
 import com.ilivanilton.application.task.retrieve.list.DefaultListTaskUseCase;
 import com.ilivanilton.application.task.retrieve.list.ListTaskUseCase;
+import com.ilivanilton.application.task.update.DefaultUpdateTaskUseCase;
+import com.ilivanilton.application.task.update.UpdateTaskUseCase;
 import com.ilivanilton.domain.task.TaskGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,5 +36,8 @@ public class TaskUseCaseConfig {
 
     @Bean
     public DeleteTaskUseCase deleteTaskUseCase() { return new DefaultDeleteTaskUseCase(taskGateway); }
+
+    @Bean
+    public UpdateTaskUseCase updateTaskUseCase() { return new DefaultUpdateTaskUseCase(taskGateway); }
 
 }

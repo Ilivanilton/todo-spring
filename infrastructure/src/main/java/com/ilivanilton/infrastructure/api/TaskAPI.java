@@ -3,10 +3,7 @@ package com.ilivanilton.infrastructure.api;
 
 import com.ilivanilton.domain.pagination.Pagination;
 import com.ilivanilton.domain.validation.handler.Notification;
-import com.ilivanilton.infrastructure.task.models.CreateTaskRequest;
-import com.ilivanilton.infrastructure.task.models.CreateTaskResponse;
-import com.ilivanilton.infrastructure.task.models.TaskListResponse;
-import com.ilivanilton.infrastructure.task.models.TaskResponse;
+import com.ilivanilton.infrastructure.task.models.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -79,4 +76,16 @@ public interface TaskAPI {
     })
     void deleteById(@PathVariable(name = "id") String id);
 
+    @PutMapping(
+            value = "{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Update a task by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Task updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Task was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    ResponseEntity<?> updateById(@PathVariable(name = "id") String id, @RequestBody UpdateTaskRequest input);
 }
