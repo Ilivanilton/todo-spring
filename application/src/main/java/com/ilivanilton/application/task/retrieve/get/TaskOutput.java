@@ -10,6 +10,7 @@ public record TaskOutput(
         String description,
         boolean isActive,
         Instant createdAt,
+        Instant updatedAt,
         Instant deletedAt
 ) {
 
@@ -19,6 +20,7 @@ public record TaskOutput(
                 aTask.getDescription(),
                 aTask.isActive(),
                 aTask.getCreatedAt(),
+                aTask.getUpdatedAt(),
                 aTask.getDeletedAt()
         );
     }

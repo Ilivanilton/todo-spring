@@ -1,6 +1,7 @@
 package com.ilivanilton.domain.task;
 
 import com.ilivanilton.domain.pagination.Pagination;
+import com.ilivanilton.domain.pagination.SearchQuery;
 
 import java.util.Optional;
 
@@ -14,5 +15,5 @@ public interface TaskGateway {
 
     Task update(Task aTask);
 
-    Pagination<Task> findAll(TaskSearchQuery aQuery);
+    Pagination<Task> findAll(SearchQuery aQuery);
 }

@@ -174,13 +174,13 @@ public class UpdateTaskUseCaseTest extends com.ilivanilton.application.UseCaseTe
         Assertions.assertEquals(expectedErrorMessage, notification.firstError().message());
 
         Mockito.verify(taskGateway, times(1)).update(argThat(
-                aUpdatedCategory ->
-                        Objects.equals(expectedDescription, aUpdatedCategory.getDescription())
-                                && Objects.equals(expectedIsActive, aUpdatedCategory.isActive())
-                                && Objects.equals(expectedId, aUpdatedCategory.getId())
-                                && Objects.equals(aTask.getCreatedAt(), aUpdatedCategory.getCreatedAt())
-                                && aTask.getUpdatedAt().isBefore(aUpdatedCategory.getUpdatedAt())
-                                && Objects.isNull(aUpdatedCategory.getDeletedAt())
+                aUpdatedTask ->
+                        Objects.equals(expectedDescription, aUpdatedTask.getDescription())
+                                && Objects.equals(expectedIsActive, aUpdatedTask.isActive())
+                                && Objects.equals(expectedId, aUpdatedTask.getId())
+                                && Objects.equals(aTask.getCreatedAt(), aUpdatedTask.getCreatedAt())
+                                && aTask.getUpdatedAt().isBefore(aUpdatedTask.getUpdatedAt())
+                                && Objects.isNull(aUpdatedTask.getDeletedAt())
         ));
     }
 

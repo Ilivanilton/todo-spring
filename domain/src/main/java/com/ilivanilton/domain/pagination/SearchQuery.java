@@ -1,6 +1,6 @@
-package com.ilivanilton.domain.task;
+package com.ilivanilton.domain.pagination;
 
-public record TaskSearchQuery(
+public record SearchQuery(
         int page,
         int perPage,
         String terms,

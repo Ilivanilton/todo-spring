@@ -1,8 +1,8 @@
 package com.ilivanilton.application.task.retrieve.list;
 
 import com.ilivanilton.domain.pagination.Pagination;
+import com.ilivanilton.domain.pagination.SearchQuery;
 import com.ilivanilton.domain.task.TaskGateway;
-import com.ilivanilton.domain.task.TaskSearchQuery;
 
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ public class DefaultListTaskUseCase extends ListTaskUseCase {
     }
 
     @Override
-    public Pagination<TaskListOutput> execute(final TaskSearchQuery aQuery) {
+    public Pagination<TaskListOutput> execute(final SearchQuery aQuery) {
         return this.taskGateway.findAll(aQuery).map(TaskListOutput::from);
     }
 }

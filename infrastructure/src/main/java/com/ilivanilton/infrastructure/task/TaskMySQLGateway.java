@@ -2,10 +2,10 @@ package com.ilivanilton.infrastructure.task;
 
 
 import com.ilivanilton.domain.pagination.Pagination;
+import com.ilivanilton.domain.pagination.SearchQuery;
 import com.ilivanilton.domain.task.Task;
 import com.ilivanilton.domain.task.TaskGateway;
 import com.ilivanilton.domain.task.TaskID;
-import com.ilivanilton.domain.task.TaskSearchQuery;
 import com.ilivanilton.infrastructure.task.persistence.TaskJpaEntity;
 import com.ilivanilton.infrastructure.task.persistence.TaskRepository;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +52,7 @@ public class TaskMySQLGateway implements TaskGateway {
     }
 
     @Override
-    public Pagination<Task> findAll(final TaskSearchQuery aQuery) {
+    public Pagination<Task> findAll(final SearchQuery aQuery) {
         // Paginação
         final var page = PageRequest.of(
                 aQuery.page(),

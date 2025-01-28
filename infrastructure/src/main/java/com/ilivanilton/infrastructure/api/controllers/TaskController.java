@@ -10,7 +10,7 @@ import com.ilivanilton.application.task.update.UpdateTaskCommand;
 import com.ilivanilton.application.task.update.UpdateTaskOutput;
 import com.ilivanilton.application.task.update.UpdateTaskUseCase;
 import com.ilivanilton.domain.pagination.Pagination;
-import com.ilivanilton.domain.task.TaskSearchQuery;
+import com.ilivanilton.domain.pagination.SearchQuery;
 import com.ilivanilton.domain.validation.handler.Notification;
 import com.ilivanilton.infrastructure.api.TaskAPI;
 import com.ilivanilton.infrastructure.task.models.*;
@@ -71,7 +71,7 @@ public class TaskController implements TaskAPI {
             final String sort,
             final String direction
     ) {
-        return listTaskUseCase.execute(new TaskSearchQuery(page, perPage, search, sort, direction))
+        return listTaskUseCase.execute(new SearchQuery(page, perPage, search, sort, direction))
                 .map(TaskApiPresenter::present);
     }
 
