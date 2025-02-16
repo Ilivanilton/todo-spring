@@ -6,6 +6,16 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
+tasks.clean {
+    delete layout.buildDirectory.dir("${rootProject.buildDir}")
+}
+
+bootJar {
+    mainClass.set("com.ilivanilton.infrastructure.Main")
+    archiveFileName.set("application.jar")
+    destinationDirectory.set(file("${rootProject.buildDir}"))
+}
+
 
 group = 'com.ilivanilton.infrastructure'
 version = '0.0.1-SNAPSHOT'
