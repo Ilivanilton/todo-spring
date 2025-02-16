@@ -6,11 +6,12 @@ Descricao do projeto.
 
 ## Tecnologias
 
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [Spring MVC](https://docs.spring.io/spring-framework/reference/web/webmvc.html)
-- [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-- [SpringDoc OpenAPI 3](https://springdoc.org/v2/#spring-webflux-support)
-- [Mysql](https://dev.mysql.com/downloads/)
+- Java 17
+- Spring Boot
+- Spring MVC
+- Spring Data JPA
+- SpringDoc OpenAPI 3
+- H2 Db
 
 ## Práticas adotadas
 
@@ -24,13 +25,13 @@ Descricao do projeto.
 ## Como Executar
 
 - Clonar repositório git
-- Construir o projeto:
+- Construir o projeto(em ambiente GNU/Linux):
 ```
-$ ./mvnw clean package
+./gradlew clean bootJar
 ```
 - Executar a aplicação:
 ```
-$ java -jar target/todolist-0.0.1-SNAPSHOT.jar
+java -jar ./build/application.jar
 ```
 
 A API poderá ser acessada em [localhost:8080](http://localhost:8080).
@@ -62,7 +63,7 @@ $ http GET :8080/api/tasks
 
 - Criar Tarefa
 ```
-$ http POST :8080/todos description="Todo 1" is_active=true
+$ http POST :8080/api/tasks description="Todo 1" is_active=true
 
 {
   "description":"Todo 1",
@@ -84,7 +85,7 @@ $ http GET :8080/api/tasks/a83458a5-96f0-456e-8a13-dcb69b2400e0
 ```
 - Atualizar Tarefa
 ```
-$ http PUT :8080/todos/1 nome="Todo 1 Up" descricao="Desc Todo 1 Up" prioridade=2
+$ http PUT :8080/api/tasks/{id} description="Todo 1 Up" prioridade=2
 
 [
   {
@@ -99,12 +100,7 @@ $ http PUT :8080/todos/1 nome="Todo 1 Up" descricao="Desc Todo 1 Up" prioridade=
 
 - Remover Tarefa
 ```
-http DELETE :8080/todos/1
+http DELETE :8080/api/tasks/{id}
 
 [ ]
 ```
-
-CREATE
-http -v POST :8080/api/tasks description=lilo is_active=true
-List
-http -v :8080/api/tasks
