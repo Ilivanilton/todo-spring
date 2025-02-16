@@ -9,6 +9,7 @@ import java.util.Objects;
 
 public class Task extends AggregateRoot<TaskID> implements Cloneable {
     private String description;
+    private TaskPriority priority;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
@@ -17,6 +18,7 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
     private Task(
             final TaskID anId,
             final String aDescription,
+            final TaskPriority priority,
             final boolean isActive,
             final Instant aCreationDate,
             final Instant aUpdateDate,
@@ -24,6 +26,7 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
     ){
         super(anId);
         this.description = aDescription;
+        this.priority = Objects.requireNonNull(priority,"'priority' should not be null");
         this.active = isActive;
         this.createdAt = Objects.requireNonNull(aCreationDate, "'createdAt' should not be null");
         this.updatedAt = Objects.requireNonNull(aUpdateDate, "'updatedAt' should not be null");
@@ -32,12 +35,14 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
 
     public static Task newTask(
             final String aDesctiption,
+            final TaskPriority priority,
             final boolean isActive
     ){
         final Instant now = InstantUtils.now();
         return new Task(
                 TaskID.unique(),
                 aDesctiption,
+                priority,
                 isActive,
                 now,
                 now,
@@ -48,13 +53,14 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
     public static Task with(
             final TaskID anId,
             final String aDescription,
+            final TaskPriority priority,
             final boolean active,
             final Instant createdAt,
             final Instant updatedAt,
             final Instant deletedAt
     ){
         return new Task( anId, aDescription,
-                active, createdAt,
+                priority, active, createdAt,
                 updatedAt, deletedAt);
     }
 
@@ -62,6 +68,7 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
         return with(
                 aTask.getId(),
                 aTask.getDescription(),
+                aTask.getPriority(),
                 aTask.isActive(),
                 aTask.getCreatedAt(),
                 aTask.getUpdatedAt(),
@@ -86,6 +93,7 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
 
     public Task update(
             final String aDescription,
+            final TaskPriority aPriority,
             final boolean isActive
     ){
         if (isActive){
@@ -94,6 +102,7 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
             deactivate();
         }
         this.description = aDescription;
+        this.priority = aPriority;
         this.updatedAt = Instant.now();
         return this;
     }
@@ -121,6 +130,10 @@ public class Task extends AggregateRoot<TaskID> implements Cloneable {
 
     public Instant getDeletedAt() {
         return deletedAt;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
     }
 
     @Override
