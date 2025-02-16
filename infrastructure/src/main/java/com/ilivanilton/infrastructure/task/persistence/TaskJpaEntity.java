@@ -3,10 +3,8 @@ package com.ilivanilton.infrastructure.task.persistence;
 
 import com.ilivanilton.domain.task.Task;
 import com.ilivanilton.domain.task.TaskID;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.ilivanilton.domain.task.TaskPriority;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 
@@ -19,6 +17,10 @@ public class TaskJpaEntity {
 
     @Column(name = "description",nullable = false, length = 4000)
     private String description;
+
+    @Column(name = "priority", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TaskPriority priority;
 
     @Column(name = "active", nullable = false)
     private boolean active;
@@ -37,6 +39,7 @@ public class TaskJpaEntity {
     private TaskJpaEntity(
             final String id,
             final String description,
+            final TaskPriority priority,
             final boolean active,
             final Instant createdAt,
             final Instant updatedAt,
@@ -44,6 +47,7 @@ public class TaskJpaEntity {
     ) {
         this.id = id;
         this.description = description;
+        this.priority = priority;
         this.active = active;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -54,6 +58,7 @@ public class TaskJpaEntity {
         return new TaskJpaEntity(
                 aTask.getId().getValue(),
                 aTask.getDescription(),
+                aTask.getPriority(),
                 aTask.isActive(),
                 aTask.getCreatedAt(),
                 aTask.getUpdatedAt(),
@@ -65,6 +70,7 @@ public class TaskJpaEntity {
         return Task.with(
                 TaskID.from(getId()),
                 getDescription(),
+                getPriority(),
                 isActive(),
                 getCreatedAt(),
                 getUpdatedAt(),
@@ -118,5 +124,13 @@ public class TaskJpaEntity {
 
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
     }
 }

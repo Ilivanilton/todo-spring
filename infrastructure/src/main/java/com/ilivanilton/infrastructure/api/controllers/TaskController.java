@@ -49,6 +49,7 @@ public class TaskController implements TaskAPI {
     public ResponseEntity<?> createTask(final CreateTaskRequest input) {
         final var aCommand = CreateTaskCommand.with(
                 input.description(),
+                input.priority(),
                 input.active() != null ? input.active() : true
         );
 
@@ -90,6 +91,7 @@ public class TaskController implements TaskAPI {
         final var aCommand = UpdateTaskCommand.with(
                 id,
                 input.description(),
+                input.priority(),
                 input.active() != null ? input.active() : true
         );
 
