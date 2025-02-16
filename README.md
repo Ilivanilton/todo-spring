@@ -43,7 +43,7 @@ Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [httpie](htt
 
 - Listar Tarefas
 ```
-$ http GET :8080/api/tasks
+http GET :8080/api/tasks
 
 {
     "currentPage":0,
@@ -55,7 +55,8 @@ $ http GET :8080/api/tasks
             "description": "Todo 1",
             "is_active": true,
             "created_at": "2024-09-17T17:45:26.345450Z",
-            "deleted_at": null
+            "deleted_at": null,
+            "priority":"HIGH"
         }
     ]
 }
@@ -63,37 +64,38 @@ $ http GET :8080/api/tasks
 
 - Criar Tarefa
 ```
-$ http POST :8080/api/tasks description="Todo 1" is_active=true
+http POST :8080/api/tasks description="Todo 1" priority="HIGH" is_active=true
 
 {
   "description":"Todo 1",
+  "priority":"HIGH",
   "is_active":true
 }
 ```
 
 - Get Tarefa
 ```
-$ http GET :8080/api/tasks/a83458a5-96f0-456e-8a13-dcb69b2400e0
+http GET :8080/api/tasks/{id}
 
 {
   "id": "a83458a5-96f0-456e-8a13-dcb69b2400e0",
   "description": "lilo",
   "is_active": true,
   "created_at": "2024-09-17T17:45:26.345450Z",
-  "deleted_at": null
+  "deleted_at": null,
+  "priority":"HIGH"
 }
 ```
 - Atualizar Tarefa
 ```
-$ http PUT :8080/api/tasks/{id} description="Todo 1 Up" prioridade=2
+$ http PUT :8080/api/tasks/{id} description="Todo 1 Up" priority="HIGH"
 
 [
   {
     "descricao": "Desc Todo 1 Up",
     "id": 1,
     "nome": "Todo 1 Up",
-    "prioridade": 2,
-    "realizado": false
+    "priority":"HIGH"
   }
 ]
 ```
