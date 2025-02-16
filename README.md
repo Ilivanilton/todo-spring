@@ -27,19 +27,11 @@ Descricao do projeto.
 - Clonar repositório git
 - Construir o projeto(em ambiente GNU/Linux):
 ```
-<<<<<<< HEAD
 ./gradlew clean bootJar
 ```
 - Executar a aplicação:
 ```
 java -jar ./build/application.jar
-=======
-$ ./gradlew clean bootJar
-```
-- Executar a aplicação:
-```
-$ java -jar ./build/application.jar
->>>>>>> 8be29a0b71d4e865c3ad982a2decf8723a324284
 ```
 
 A API poderá ser acessada em [localhost:8080](http://localhost:8080).
