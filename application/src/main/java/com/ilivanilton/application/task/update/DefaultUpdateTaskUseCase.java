@@ -26,13 +26,14 @@ public class DefaultUpdateTaskUseCase extends UpdateTaskUseCase{
     public Either<Notification, UpdateTaskOutput> execute(UpdateTaskCommand aCommand) {
         final var anId = TaskID.from(aCommand.id());
         final var aDescription = aCommand.description();
+        final var aPriority = aCommand.priority();
         final var isActive = aCommand.isActive();
 
         final var aTask = this.taskGateway.findById(anId).orElseThrow(notFound(anId));
 
         final var notification = Notification.create();
 
-        aTask.update(aDescription, isActive).validate(notification);
+        aTask.update(aDescription, aPriority, isActive).validate(notification);
 
         return notification.hasError() ? Left(notification) : update(aTask);
     }

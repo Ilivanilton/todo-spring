@@ -19,6 +19,7 @@ public interface TaskApiPresenter {
         return new TaskListResponse(
                 output.id().getValue(),
                 output.description(),
+                output.priority(),
                 output.isActive(),
                 output.createdAt(),
                 output.deletedAt()
@@ -29,6 +30,7 @@ public interface TaskApiPresenter {
         return new TaskResponse(
                 output.id().getValue(),
                 output.description(),
+                output.priority(),
                 output.isActive(),
                 output.createdAt(),
                 output.deletedAt()

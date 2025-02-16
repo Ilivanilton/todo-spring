@@ -21,11 +21,12 @@ public class DefaultCreateTaskUseCase extends CreateTaskUseCase {
     @Override
     public Either<Notification, CreateTaskOutput> execute(final CreateTaskCommand aCommand) {
         final var aDescription = aCommand.description();
+        final var aPriority = aCommand.priority();
         final var isActive = aCommand.isActive();
 
         final var notification = Notification.create();
 
-        final var aTask = Task.newTask(aDescription, isActive);
+        final var aTask = Task.newTask(aDescription, aPriority, isActive);
         aTask.validate(notification);
 
         return notification.hasError() ? Left(notification) : create(aTask);
