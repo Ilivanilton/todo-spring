@@ -11,6 +11,7 @@ import com.ilivanilton.application.task.update.UpdateTaskOutput;
 import com.ilivanilton.application.task.update.UpdateTaskUseCase;
 import com.ilivanilton.domain.pagination.Pagination;
 import com.ilivanilton.domain.pagination.SearchQuery;
+import com.ilivanilton.domain.task.TaskPriority;
 import com.ilivanilton.domain.validation.handler.Notification;
 import com.ilivanilton.infrastructure.api.TaskAPI;
 import com.ilivanilton.infrastructure.task.models.*;
@@ -49,7 +50,7 @@ public class TaskController implements TaskAPI {
     public ResponseEntity<?> createTask(final CreateTaskRequest input) {
         final var aCommand = CreateTaskCommand.with(
                 input.description(),
-                input.priority(),
+                TaskPriority.valueOf(input.priority()),
                 input.active() != null ? input.active() : true
         );
 
@@ -91,7 +92,7 @@ public class TaskController implements TaskAPI {
         final var aCommand = UpdateTaskCommand.with(
                 id,
                 input.description(),
-                input.priority(),
+                TaskPriority.valueOf(input.priority()),
                 input.active() != null ? input.active() : true
         );
 
